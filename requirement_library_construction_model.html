@@ -1,0 +1,123 @@
+
+<style>
+*{box-sizing:border-box}
+body,#wrap{font-family:var(--font-sans)}
+#wrap{padding:16px 8px 8px}
+.sec-label{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin:0 0 8px 2px}
+.formula-row{display:flex;align-items:stretch;gap:0;margin-bottom:20px}
+.fbox{flex:1;border-radius:8px;padding:10px 10px;border:0.5px solid;display:flex;flex-direction:column;gap:3px}
+.fbox.wide{flex:1.5}
+.fbox-teal{background:#E1F5EE;border-color:#1D9E75;color:#04342C}
+.fbox-coral{background:#FAECE7;border-color:#D85A30;color:#4A1B0C}
+.fbox-amber{background:#FAEEDA;border-color:#BA7517;color:#412402}
+.fbox-purple{background:#EEEDFE;border-color:#7F77DD;color:#26215C}
+@media(prefers-color-scheme:dark){
+.fbox-teal{background:#04342C;border-color:#5DCAA5;color:#9FE1CB}
+.fbox-coral{background:#4A1B0C;border-color:#F0997B;color:#FAECE7}
+.fbox-amber{background:#412402;border-color:#EF9F27;color:#FAEEDA}
+.fbox-purple{background:#26215C;border-color:#AFA9EC;color:#EEEDFE}
+}
+.fbox-label{font-size:10px;font-weight:500;letter-spacing:.04em;text-transform:uppercase;opacity:.65}
+.fbox-main{font-size:13px;font-weight:500;line-height:1.3;margin-top:1px}
+.fbox-sub{font-size:11px;opacity:.8;line-height:1.4;margin-top:2px}
+.fbox-stmt{font-size:11px;line-height:1.5;margin-top:4px;font-style:italic;opacity:.9}
+.op{display:flex;align-items:center;justify-content:center;font-size:20px;font-weight:300;color:var(--color-text-tertiary);padding:0 6px;flex-shrink:0}
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:4px 0 16px}
+.bottom-row{display:flex;gap:10px;margin-bottom:8px}
+.rule-box{flex:1;border-radius:8px;border:0.5px solid var(--color-border-secondary);padding:12px 14px}
+.rule-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:8px}
+.rule-item{display:flex;gap:8px;margin-bottom:5px;font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+.dot{width:14px;height:14px;border-radius:50%;flex-shrink:0;margin-top:1px;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:600}
+.dot-g{background:#E1F5EE;color:#085041}
+.dot-r{background:#FCEBEB;color:#791F1F}
+.rule-divider{height:0.5px;background:var(--color-border-tertiary);margin:8px 0}
+.prereq-box{background:var(--color-background-secondary);border-radius:8px;border:0.5px solid var(--color-border-secondary);padding:12px 14px;margin-bottom:8px}
+.prereq-title{font-size:12px;font-weight:500;color:var(--color-text-primary);margin-bottom:6px}
+.prereq-step{display:flex;gap:10px;align-items:flex-start;margin-bottom:6px;font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+.step-num{width:18px;height:18px;border-radius:50%;background:#B5D4F4;color:#042C53;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:0px}
+@media(prefers-color-scheme:dark){.step-num{background:#0C447C;color:#B5D4F4}}
+.param-example{display:inline-block;background:var(--color-background-secondary);border:0.5px solid var(--color-border-secondary);border-radius:4px;padding:1px 6px;font-size:10px;font-family:var(--font-mono);margin:1px 2px}
+</style>
+
+<div id="wrap">
+
+  <div class="sec-label">The construction formula</div>
+  <div class="formula-row">
+    <div class="fbox fbox-teal">
+      <div class="fbox-label">1 · Subcategory</div>
+      <div class="fbox-main">Outcome goal</div>
+      <div class="fbox-sub">Defines the WHY — what the org must achieve</div>
+    </div>
+    <div class="op">+</div>
+    <div class="fbox fbox-coral">
+      <div class="fbox-label">2 · Control(s)</div>
+      <div class="fbox-main">Mechanism</div>
+      <div class="fbox-sub">Defines the WHAT — the specific practice required</div>
+    </div>
+    <div class="op">+</div>
+    <div class="fbox fbox-amber">
+      <div class="fbox-label">3 · Company Standards</div>
+      <div class="fbox-main">Parameters</div>
+      <div class="fbox-sub">Defines HOW MUCH — your org-specific values</div>
+    </div>
+    <div class="op">=</div>
+    <div class="fbox fbox-purple wide">
+      <div class="fbox-label">Requirement</div>
+      <div class="fbox-main">Written, audience-ready statement</div>
+      <div class="fbox-sub">Traceable · Measurable · Auditable</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="sec-label">Concrete example — building REQ-IAM-001</div>
+  <div class="formula-row">
+    <div class="fbox fbox-teal">
+      <div class="fbox-label">PR.AA-01</div>
+      <div class="fbox-main">Identities proofed &amp; bound</div>
+      <div class="fbox-sub">"Identities are proofed and bound to credentials and asserted in interactions"</div>
+    </div>
+    <div class="op">+</div>
+    <div class="fbox fbox-coral">
+      <div class="fbox-label">AC-2 + AC-2(1)</div>
+      <div class="fbox-main">Account management</div>
+      <div class="fbox-sub">Account lifecycle · Automated provisioning &amp; deprovisioning · Parameters: <span class="param-example">[account-types]</span> <span class="param-example">[frequency]</span> <span class="param-example">[notification-period]</span></div>
+    </div>
+    <div class="op">+</div>
+    <div class="fbox fbox-amber">
+      <div class="fbox-label">Your standards</div>
+      <div class="fbox-main">Fill the parameters</div>
+      <div class="fbox-sub"><span class="param-example">account-types</span> = privileged, service, user<br><span class="param-example">frequency</span> = quarterly<br><span class="param-example">notification-period</span> = 24 hours<br><span class="param-example">system</span> = Okta</div>
+    </div>
+    <div class="op">=</div>
+    <div class="fbox fbox-purple wide">
+      <div class="fbox-label">REQ-IAM-001 · v1.0</div>
+      <div class="fbox-stmt">"All service and privileged accounts must be provisioned and deprovisioned through Okta. Applications may not maintain local credential stores. Accounts must be reviewed quarterly. Access must be revoked within 24 hours of role change or termination. Verified by: IAM audit report showing zero unregistered accounts; quarterly review sign-off on file."</div>
+    </div>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="bottom-row">
+    <div class="rule-box" style="flex:1.1">
+      <div class="rule-title">Grouping rule — when to combine controls</div>
+      <div class="rule-item"><div class="dot dot-g">✓</div><div>Same implementation team and tool — AC-2 + AC-2(1) both owned by IAM team in Okta → one requirement</div></div>
+      <div class="rule-item"><div class="dot dot-g">✓</div><div>Same verification method — both verified by the same audit report → one requirement</div></div>
+      <div class="rule-divider"></div>
+      <div class="rule-item"><div class="dot dot-r">✗</div><div>Different audiences — AC-2 (app dev) vs SC-28 (infra/Terraform) → separate requirements</div></div>
+      <div class="rule-item"><div class="dot dot-r">✗</div><div>Different tools or systems → separate requirements</div></div>
+      <div class="rule-item"><div class="dot dot-r">✗</div><div>Different verification cadence or method → separate requirements</div></div>
+    </div>
+
+    <div class="rule-box" style="flex:1">
+      <div class="rule-title">Prerequisite — Company Standards first</div>
+      <div class="rule-item"><div class="dot dot-r">!</div><div>Every control with <span class="param-example">[org-defined X]</span> needs a value before a requirement can be written</div></div>
+      <div class="rule-divider"></div>
+      <div class="prereq-step"><div class="step-num">1</div><div>Inventory all control parameters for your Moderate baseline — every bracket is a decision your org must make</div></div>
+      <div class="prereq-step"><div class="step-num">2</div><div>Assign parameter decisions to CISO, Legal, or Ops — whoever owns the policy threshold</div></div>
+      <div class="prereq-step"><div class="step-num">3</div><div>Publish as Company Standard Fact Sheets in LeanIX — now requirements can be written and versioned against them</div></div>
+      <div class="prereq-step"><div class="step-num">4</div><div>When a standard changes, requirements that reference it version up automatically — no re-analysis needed</div></div>
+    </div>
+  </div>
+
+</div>
