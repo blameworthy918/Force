@@ -1,0 +1,227 @@
+
+<style>
+#dg{position:relative;padding:12px 6px 0;font-family:var(--font-sans)}
+.rw{display:flex;gap:6px;margin-bottom:4px}
+.nd{border-radius:8px;padding:7px 10px;border:0.5px solid;text-align:center;flex:1;position:relative}
+.t1{font-size:13px;font-weight:500;line-height:1.4}
+.t2{font-size:11px;line-height:1.4;margin-top:2px;opacity:.85}
+.t3{font-size:10px;line-height:1.3;margin-top:2px;font-weight:500;letter-spacing:.04em;opacity:.65;text-transform:uppercase}
+.fn{background:#B5D4F4;border-color:#185FA5;color:#042C53}
+.cat{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.out{background:#E1F5EE;border-color:#1D9E75;color:#04342C}
+.ctrl{background:#FAECE7;border-color:#D85A30;color:#4A1B0C;flex:0 0 auto;min-width:64px}
+.req{background:#EEEDFE;border-color:#7F77DD;color:#26215C}
+.app{background:#FAEEDA;border-color:#BA7517;color:#412402}
+.gap{flex:.35;pointer-events:none}
+.badge{display:inline-block;font-size:9px;font-weight:500;padding:1px 5px;border-radius:3px;margin-left:5px;vertical-align:middle}
+.pc{background:#9FE1CB;color:#04342C}
+.pct{background:#FAECE7;color:#712B13}
+@media(prefers-color-scheme:dark){
+.fn{background:#042C53;border-color:#85B7EB;color:#E6F1FB}
+.cat{background:#0C447C;border-color:#85B7EB;color:#B5D4F4}
+.out{background:#04342C;border-color:#5DCAA5;color:#9FE1CB}
+.ctrl{background:#4A1B0C;border-color:#F0997B;color:#FAECE7}
+.req{background:#26215C;border-color:#AFA9EC;color:#EEEDFE}
+.app{background:#412402;border-color:#EF9F27;color:#FAEEDA}
+.pc{background:#085041;color:#9FE1CB}
+.pct{background:#712B13;color:#FAECE7}
+}
+#cv{position:absolute;top:0;left:0;pointer-events:none;overflow:visible}
+.leg{display:flex;flex-wrap:wrap;gap:5px 14px;margin-top:14px;padding-top:10px;border-top:0.5px solid var(--color-border-tertiary)}
+.li{display:flex;align-items:center;gap:5px;font-size:11px;color:var(--color-text-secondary)}
+.ls{width:11px;height:11px;border-radius:2px;border:0.5px solid;flex-shrink:0}
+.spacer{height:28px}
+</style>
+
+<div id="dg">
+  <svg id="cv">
+    <defs>
+      <marker id="ab" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#185FA5" stroke-width="1.5" stroke-linecap="round"/></marker>
+      <marker id="at" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#1D9E75" stroke-width="1.5" stroke-linecap="round"/></marker>
+      <marker id="ap" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"/></marker>
+      <marker id="aa" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#BA7517" stroke-width="1.5" stroke-linecap="round"/></marker>
+      <marker id="ag" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round"/></marker>
+    </defs>
+  </svg>
+
+  <div class="rw">
+    <div id="n-protect" class="nd fn">
+      <div class="t1">PROTECT function</div>
+      <div class="t2">56% complete &nbsp;·&nbsp; 2 categories shown</div>
+    </div>
+  </div>
+
+  <div class="rw">
+    <div id="n-praa" class="nd cat"><div class="t1">PR.AA — Identity management</div></div>
+    <div id="n-prds" class="nd cat"><div class="t1">PR.DS — Data security</div></div>
+  </div>
+
+  <div class="rw">
+    <div id="n-praa01" class="nd out">
+      <div class="t3">outcome</div>
+      <div class="t1">PR.AA-01 <span class="badge pct">45%</span></div>
+      <div class="t2">Identities proofed &amp; bound</div>
+    </div>
+    <div id="n-prds01" class="nd out">
+      <div class="t3">outcome</div>
+      <div class="t1">PR.DS-01 <span class="badge pc">67%</span></div>
+      <div class="t2">Data at rest protected</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="rw" style="align-items:stretch">
+    <div id="n-ac2"   class="nd ctrl"><div class="t3">control</div><div class="t1">AC-2</div></div>
+    <div id="n-ac21"  class="nd ctrl"><div class="t3">control</div><div class="t1">AC-2(1)</div></div>
+    <div id="n-ia2"   class="nd ctrl"><div class="t3">control</div><div class="t1">IA-2</div></div>
+    <div id="n-ia3"   class="nd ctrl"><div class="t3">control</div><div class="t1">IA-3</div></div>
+    <div class="gap"></div>
+    <div id="n-sc28"  class="nd ctrl"><div class="t3">control</div><div class="t1">SC-28</div></div>
+    <div id="n-sc281" class="nd ctrl"><div class="t3">control</div><div class="t1">SC-28(1)</div></div>
+    <div id="n-mp2"   class="nd ctrl"><div class="t3">control</div><div class="t1">MP-2</div></div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="rw">
+    <div id="n-req001" class="nd req">
+      <div class="t3">requirement</div>
+      <div class="t1">REQ-IAM-001</div>
+      <div class="t2">Account lifecycle mgmt</div>
+    </div>
+    <div id="n-req002" class="nd req">
+      <div class="t3">requirement</div>
+      <div class="t1">REQ-IAM-002</div>
+      <div class="t2">Privileged access</div>
+    </div>
+    <div class="gap"></div>
+    <div id="n-reqds001" class="nd req">
+      <div class="t3">requirement</div>
+      <div class="t1">REQ-DS-001</div>
+      <div class="t2">Encryption at rest</div>
+    </div>
+  </div>
+
+  <div class="spacer"></div>
+
+  <div class="rw">
+    <div id="n-app" class="nd app">
+      <div class="t1">Customer Portal &nbsp;<span style="font-weight:400;font-size:11px">— application</span></div>
+      <div class="t2">Derived coverage: PR.AA-01 (45%) and PR.DS-01 (67%) — inherited via requirement chain</div>
+    </div>
+  </div>
+
+  <div class="leg">
+    <div class="li"><div class="ls" style="background:#B5D4F4;border-color:#185FA5"></div>CSF hierarchy</div>
+    <div class="li"><div class="ls" style="background:#E1F5EE;border-color:#1D9E75"></div>Outcome</div>
+    <div class="li"><div class="ls" style="background:#FAECE7;border-color:#D85A30"></div>800-53r5 control</div>
+    <div class="li"><div class="ls" style="background:#EEEDFE;border-color:#7F77DD"></div>Requirement</div>
+    <div class="li"><div class="ls" style="background:#FAEEDA;border-color:#BA7517"></div>Application</div>
+    <div class="li" style="margin-left:auto">
+      <svg width="26" height="12" style="flex-shrink:0"><defs><marker id="lp" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="0" y1="6" x2="20" y2="6" stroke="#7F77DD" stroke-width="1.5" marker-end="url(#lp)"/></svg>
+      Direct
+    </div>
+    <div class="li">
+      <svg width="26" height="12" style="flex-shrink:0"><defs><marker id="lp2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#7F77DD" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="0" y1="6" x2="20" y2="6" stroke="#7F77DD" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#lp2)"/></svg>
+      M:M cross
+    </div>
+    <div class="li">
+      <svg width="26" height="12" style="flex-shrink:0"><defs><marker id="lg" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="5" markerHeight="5" orient="auto-start-reverse"><path d="M2 2L8 5L2 8" fill="none" stroke="#888780" stroke-width="1.5" stroke-linecap="round"/></marker></defs><line x1="0" y1="6" x2="20" y2="6" stroke="#888780" stroke-width="1.5" stroke-dasharray="4 2" marker-end="url(#lg)"/></svg>
+      Derived coverage
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  const CONNS=[
+    ['n-protect','n-praa','b',false],
+    ['n-protect','n-prds','b',false],
+    ['n-praa','n-praa01','b',false],
+    ['n-prds','n-prds01','b',false],
+    ['n-praa01','n-ac2','t',false],
+    ['n-praa01','n-ac21','t',false],
+    ['n-praa01','n-ia2','t',false],
+    ['n-praa01','n-ia3','t',false],
+    ['n-prds01','n-sc28','t',false],
+    ['n-prds01','n-sc281','t',false],
+    ['n-prds01','n-mp2','t',false],
+    ['n-ac2','n-req001','p',false],
+    ['n-ac2','n-req002','p',true],
+    ['n-ac21','n-req002','p',false],
+    ['n-ia2','n-req001','p',false],
+    ['n-ia3','n-req002','p',true],
+    ['n-sc28','n-reqds001','p',false],
+    ['n-sc281','n-reqds001','p',false],
+    ['n-app','n-req001','a',false],
+    ['n-app','n-req002','a',false],
+    ['n-app','n-reqds001','a',false],
+    ['n-app','n-praa01','g-l',false],
+    ['n-app','n-prds01','g-r',false],
+  ];
+  const C={b:'#185FA5',t:'#1D9E75',p:'#7F77DD',a:'#BA7517'};
+  const M={b:'ab',t:'at',p:'ap',a:'aa'};
+
+  function rc(id){
+    const el=document.getElementById(id);
+    const dg=document.getElementById('dg');
+    const er=el.getBoundingClientRect();
+    const dr=dg.getBoundingClientRect();
+    return{l:er.left-dr.left,t:er.top-dr.top,r:er.right-dr.left,b:er.bottom-dr.top,cx:(er.left+er.right)/2-dr.left,cy:(er.top+er.bottom)/2-dr.top};
+  }
+
+  function draw(){
+    const svg=document.getElementById('cv');
+    const dg=document.getElementById('dg');
+    const W=dg.offsetWidth;
+    svg.setAttribute('width',W);
+    svg.setAttribute('height',dg.offsetHeight);
+    svg.querySelectorAll('line,path.cp').forEach(l=>l.remove());
+
+    for(const[from,to,type,dashed]of CONNS){
+      try{
+        const f=rc(from),t2=rc(to);
+
+        if(type==='g-l'||type==='g-r'){
+          const mg=type==='g-l'?3:W-3;
+          let d;
+          if(type==='g-l'){
+            d=`M${f.l},${f.cy} L${mg},${f.cy} L${mg},${t2.cy} L${t2.l},${t2.cy}`;
+          } else {
+            d=`M${f.r},${f.cy} L${mg},${f.cy} L${mg},${t2.cy} L${t2.r},${t2.cy}`;
+          }
+          const path=document.createElementNS('http://www.w3.org/2000/svg','path');
+          path.setAttribute('d',d);
+          path.setAttribute('class','cp');
+          path.setAttribute('stroke','#888780');
+          path.setAttribute('stroke-width','1.5');
+          path.setAttribute('fill','none');
+          path.setAttribute('stroke-dasharray','4 3');
+          path.setAttribute('marker-end','url(#ag)');
+          svg.appendChild(path);
+          continue;
+        }
+
+        let x1,y1,x2,y2;
+        const G=3;
+        if(t2.t>f.b+G){x1=f.cx;y1=f.b;x2=t2.cx;y2=t2.t;}
+        else if(f.t>t2.b+G){x1=f.cx;y1=f.t;x2=t2.cx;y2=t2.b;}
+        else{x1=f.r;y1=f.cy;x2=t2.l;y2=t2.cy;}
+        const ln=document.createElementNS('http://www.w3.org/2000/svg','line');
+        ln.setAttribute('x1',x1);ln.setAttribute('y1',y1);
+        ln.setAttribute('x2',x2);ln.setAttribute('y2',y2);
+        ln.setAttribute('stroke',C[type]);
+        ln.setAttribute('stroke-width','1.5');
+        ln.setAttribute('fill','none');
+        ln.setAttribute('marker-end',`url(#${M[type]})`);
+        if(dashed)ln.setAttribute('stroke-dasharray','5 3');
+        svg.appendChild(ln);
+      }catch(e){}
+    }
+  }
+
+  requestAnimationFrame(()=>requestAnimationFrame(draw));
+  window.addEventListener('resize',draw);
+})();
+</script>
