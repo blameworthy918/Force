@@ -1,0 +1,224 @@
+
+<style>
+*{box-sizing:border-box}
+#wrap{padding:16px 8px 10px;font-family:var(--font-sans)}
+.sec{font-size:10px;font-weight:500;letter-spacing:.06em;text-transform:uppercase;color:var(--color-text-tertiary);margin-bottom:8px}
+.row2{display:flex;gap:12px;margin-bottom:16px}
+.card{border-radius:10px;border:0.5px solid var(--color-border-secondary);padding:12px 14px;background:var(--color-background-secondary)}
+.card-title{font-size:12px;font-weight:600;color:var(--color-text-primary);margin-bottom:10px;display:flex;align-items:center;gap:8px}
+.fs-tag{font-size:10px;font-weight:500;padding:2px 7px;border-radius:4px}
+
+/* Fact Sheet field rows */
+.fields{display:flex;flex-direction:column;gap:5px}
+.field-row{display:flex;gap:8px;align-items:flex-start}
+.ftype{font-size:9px;font-weight:500;padding:2px 6px;border-radius:3px;white-space:nowrap;flex-shrink:0;margin-top:1px;letter-spacing:.02em;text-transform:uppercase}
+.ft-text{background:#E6F1FB;color:#0C447C;border:0.5px solid #185FA5}
+.ft-sel{background:#FAEEDA;color:#412402;border:0.5px solid #BA7517}
+.ft-date{background:#E1F5EE;color:#04342C;border:0.5px solid #1D9E75}
+.ft-rel{background:#EEEDFE;color:#26215C;border:0.5px solid #7F77DD}
+.ft-long{background:#F4F3FF;color:#26215C;border:0.5px solid #C8C4F8}
+@media(prefers-color-scheme:dark){
+.ft-text{background:#0C447C;color:#B5D4F4;border-color:#85B7EB}
+.ft-sel{background:#412402;color:#FAEEDA;border-color:#EF9F27}
+.ft-date{background:#04342C;color:#9FE1CB;border-color:#5DCAA5}
+.ft-rel{background:#26215C;color:#EEEDFE;border-color:#AFA9EC}
+.ft-long{background:#1C1940;color:#CECBF6;border-color:#534AB7}
+}
+.fname{font-size:11px;font-weight:500;color:var(--color-text-primary)}
+.fval{font-size:11px;color:var(--color-text-secondary);margin-top:1px;font-family:var(--font-mono)}
+.fexpl{font-size:10px;color:var(--color-text-tertiary);margin-top:1px;font-style:italic}
+
+.kv-block{background:var(--color-background-primary);border:0.5px solid var(--color-border-secondary);border-radius:6px;padding:8px 10px;margin-top:4px;font-family:var(--font-mono);font-size:11px;line-height:1.8;color:var(--color-text-secondary)}
+.kv-key{color:var(--color-text-primary);font-weight:500}
+.kv-val{color:#534AB7}
+@media(prefers-color-scheme:dark){.kv-val{color:#AFA9EC}}
+
+.divider{height:0.5px;background:var(--color-border-tertiary);margin:8px 0}
+
+/* Relations side */
+.rel-list{display:flex;flex-direction:column;gap:6px}
+.rel-item{border-radius:8px;border:0.5px solid #C8C4F8;background:#F4F3FF;padding:8px 10px}
+@media(prefers-color-scheme:dark){.rel-item{background:#1C1940;border-color:#534AB7}}
+.rel-label{font-size:10px;font-weight:500;color:#534AB7;letter-spacing:.03em;text-transform:uppercase;margin-bottom:3px}
+@media(prefers-color-scheme:dark){.rel-label{color:#AFA9EC}}
+.rel-id{font-size:12px;font-weight:500;color:var(--color-text-primary)}
+.rel-sub{font-size:11px;color:var(--color-text-secondary);margin-top:1px}
+.rel-status{font-size:10px;font-weight:500;padding:1px 6px;border-radius:3px;float:right;margin-top:1px}
+.rs-pub{background:#E1F5EE;color:#085041;border:0.5px solid #1D9E75}
+.rs-drft{background:#FAEEDA;color:#633806;border:0.5px solid #BA7517}
+@media(prefers-color-scheme:dark){
+.rs-pub{background:#085041;color:#9FE1CB}
+.rs-drft{background:#633806;color:#FAEEDA}
+}
+
+.rel-arrow-label{font-size:10px;color:var(--color-text-tertiary);text-align:center;padding:4px 0;font-style:italic}
+
+/* Impact section */
+.impact-box{border-radius:10px;border:0.5px solid #F0997B;background:#FAECE7;padding:12px 14px}
+@media(prefers-color-scheme:dark){.impact-box{background:#4A1B0C;border-color:#F0997B}}
+.impact-title{font-size:12px;font-weight:600;color:#4A1B0C;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+@media(prefers-color-scheme:dark){.impact-title{color:#FAECE7}}
+.impact-steps{display:flex;flex-direction:column;gap:5px}
+.istep{display:flex;gap:8px;align-items:flex-start}
+.inum{width:18px;height:18px;border-radius:50%;background:#D85A30;color:#fff;font-size:10px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.itext{font-size:11px;color:var(--color-text-secondary);line-height:1.5}
+.icode{font-family:var(--font-mono);font-size:10px;background:var(--color-background-secondary);padding:1px 5px;border-radius:3px;border:0.5px solid var(--color-border-secondary)}
+
+/* Comparison row */
+.compare{display:flex;gap:8px;margin-bottom:16px}
+.cbox{flex:1;border-radius:8px;border:0.5px solid var(--color-border-secondary);padding:10px 12px}
+.cbox-title{font-size:12px;font-weight:500;margin-bottom:6px;display:flex;align-items:center;gap:6px}
+.c-pro{color:#085041}
+.c-con{color:#791F1F}
+.citem{display:flex;gap:6px;font-size:11px;color:var(--color-text-secondary);margin-bottom:4px;line-height:1.4;align-items:flex-start}
+.ci-dot{width:14px;height:14px;border-radius:50%;font-size:9px;font-weight:600;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.ci-g{background:#9FE1CB;color:#04342C}
+.ci-r{background:#F7C1C1;color:#501313}
+</style>
+
+<div id="wrap">
+
+  <!-- Comparison -->
+  <div class="sec">Approach comparison</div>
+  <div class="compare">
+    <div class="cbox">
+      <div class="cbox-title"><span style="font-size:14px">⚠️</span> Text field on Requirement (not recommended)</div>
+      <div class="citem"><div class="ci-dot ci-g">✓</div><div>Simple — no extra Fact Sheet type needed</div></div>
+      <div class="citem"><div class="ci-dot ci-g">✓</div><div>Fine for a proof of concept or pilot</div></div>
+      <div class="citem"><div class="ci-dot ci-r">✗</div><div>No relations — can't query "which reqs use quarterly?"</div></div>
+      <div class="citem"><div class="ci-dot ci-r">✗</div><div>Change impact is manual — hunt and update every requirement</div></div>
+      <div class="citem"><div class="ci-dot ci-r">✗</div><div>Parameters invisible to LeanIX reporting</div></div>
+      <div class="citem"><div class="ci-dot ci-r">✗</div><div>OSCAL export must parse free text — fragile</div></div>
+    </div>
+    <div class="cbox">
+      <div class="cbox-title"><span style="font-size:14px">✅</span> Company Standard Fact Sheet (recommended)</div>
+      <div class="citem"><div class="ci-dot ci-g">✓</div><div>Relation-driven — one change, all affected reqs visible instantly</div></div>
+      <div class="citem"><div class="ci-dot ci-g">✓</div><div>Versionable — when quarterly → semi-annual, create v2, reqs version too</div></div>
+      <div class="citem"><div class="ci-dot ci-g">✓</div><div>OSCAL-ready — param-id field maps directly to set-parameter</div></div>
+      <div class="citem"><div class="ci-dot ci-g">✓</div><div>Reportable — "show all active Company Standards" is one view</div></div>
+      <div class="citem"><div class="ci-dot ci-r">✗</div><div>Requires defining a new Fact Sheet type (one-time setup)</div></div>
+    </div>
+  </div>
+
+  <!-- Main two-column layout -->
+  <div class="sec">Company Standard Fact Sheet — recommended field structure</div>
+  <div class="row2">
+
+    <!-- Left: Fact Sheet fields -->
+    <div class="card" style="flex:1.3">
+      <div class="card-title">
+        <span style="font-size:14px">📋</span>
+        IAM Account Standards
+        <span class="fs-tag ft-sel">Company Standard</span>
+      </div>
+      <div class="fields">
+
+        <div class="field-row">
+          <div class="ftype ft-text">Text</div>
+          <div><div class="fname">Parameter Group Name</div><div class="fval">IAM Account Standards</div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-sel">Select</div>
+          <div><div class="fname">Control Family</div><div class="fval">AC — Access Control</div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-text">Text</div>
+          <div><div class="fname">OSCAL param-ids</div><div class="fval">ac-2_prm_1, ac-2_prm_2, ac-2_prm_3</div><div class="fexpl">Maps directly to Profile set-parameter on OSCAL export</div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-sel">Select</div>
+          <div><div class="fname">Status</div><div class="fval">Active</div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-text">Text</div>
+          <div><div class="fname">Version</div><div class="fval">v1.0</div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-date">Date</div>
+          <div><div class="fname">Effective Date</div><div class="fval">2025-01-01</div></div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-rel">Relation</div>
+          <div><div class="fname">Owner</div><div class="fval">IAM Engineering Team</div></div>
+        </div>
+
+        <div class="divider"></div>
+
+        <div class="field-row" style="flex-direction:column">
+          <div style="display:flex;gap:8px;align-items:center">
+            <div class="ftype ft-long">Long text</div>
+            <div class="fname">Parameter values <span style="font-weight:400;font-size:10px;color:var(--color-text-tertiary)">— key: value, one per line</span></div>
+          </div>
+          <div class="kv-block">
+            <span class="kv-key">review-frequency</span>: <span class="kv-val">quarterly</span><br>
+            <span class="kv-key">notification-period</span>: <span class="kv-val">24 hours</span><br>
+            <span class="kv-key">account-types</span>: <span class="kv-val">privileged, service, user</span><br>
+            <span class="kv-key">inactive-disable-period</span>: <span class="kv-val">90 days</span><br>
+            <span class="kv-key">iam-system</span>: <span class="kv-val">Okta</span>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="ftype ft-rel">Relation</div>
+          <div><div class="fname">Governs → Requirements</div><div class="fexpl">The relation that enables impact analysis</div></div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Right: connected requirements + impact -->
+    <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+
+      <div class="card">
+        <div class="card-title"><span style="font-size:14px">🔗</span> Governed requirements</div>
+        <div class="rel-arrow-label">← "governed by" relation from each requirement</div>
+        <div class="rel-list">
+          <div class="rel-item">
+            <span class="rel-status rs-pub">Published</span>
+            <div class="rel-label">Requirement</div>
+            <div class="rel-id">REQ-IAM-001</div>
+            <div class="rel-sub">Account lifecycle mgmt · uses review-frequency, notification-period</div>
+          </div>
+          <div class="rel-item">
+            <span class="rel-status rs-pub">Published</span>
+            <div class="rel-label">Requirement</div>
+            <div class="rel-id">REQ-IAM-002</div>
+            <div class="rel-sub">Privileged access · uses account-types, inactive-disable-period</div>
+          </div>
+          <div class="rel-item">
+            <span class="rel-status rs-drft">Draft</span>
+            <div class="rel-label">Requirement</div>
+            <div class="rel-id">REQ-IAM-005</div>
+            <div class="rel-sub">Service account rotation · uses iam-system, review-frequency</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="impact-box">
+        <div class="impact-title"><span style="font-size:14px">⚡</span> Change impact — review-frequency: quarterly → semi-annual</div>
+        <div class="impact-steps">
+          <div class="istep"><div class="inum">1</div><div class="itext">Update <icode class="icode">review-frequency: semi-annual</icode> in this Fact Sheet. Bump version to v1.1.</div></div>
+          <div class="istep"><div class="inum">2</div><div class="itext">LeanIX shows all governed requirements via the relation — REQ-IAM-001, REQ-IAM-002, REQ-IAM-005 are immediately visible.</div></div>
+          <div class="istep"><div class="inum">3</div><div class="itext">Each requirement owner is notified. Requirements referencing the changed parameter get versioned (v1.0 → v1.1).</div></div>
+          <div class="istep"><div class="inum">4</div><div class="itext">OSCAL export picks up the new <icode class="icode">set-parameter</icode> value automatically from the updated Fact Sheet. No manual OSCAL editing.</div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Grouping note -->
+  <div class="card" style="background:var(--color-background-secondary)">
+    <div class="card-title" style="font-size:12px;margin-bottom:4px">💡 How many Company Standard Fact Sheets?</div>
+    <div style="font-size:11px;color:var(--color-text-secondary);line-height:1.6">
+      Group by <strong>topic, not by control</strong>. A Moderate baseline has 300+ controls and 500+ parameters — one Fact Sheet per parameter is unmanageable. Instead: <strong>IAM Account Standards</strong> (all AC-family account parameters) · <strong>Encryption Standards</strong> (SC-family key lengths, algorithms, CMEK requirements) · <strong>Audit &amp; Logging Standards</strong> (AU-family retention periods, alert thresholds) · <strong>Incident Response Standards</strong> (IR-family notification windows, escalation paths). Aim for 12–20 Company Standard Fact Sheets covering the full Moderate baseline. Related parameters change together — grouping by topic matches how your org actually makes policy decisions.
+    </div>
+  </div>
+
+</div>
