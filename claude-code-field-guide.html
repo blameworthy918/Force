@@ -1,0 +1,1347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Claude Code — Field Guide</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg:         #07080D;
+    --bg-surface: #0F1118;
+    --bg-card:    #161820;
+    --bg-well:    #1C1F2A;
+    --border:     rgba(255,255,255,0.07);
+    --border-md:  rgba(255,255,255,0.12);
+    --amber:      #F5A623;
+    --amber-dim:  rgba(245,166,35,0.12);
+    --cyan:       #38D9F5;
+    --cyan-dim:   rgba(56,217,245,0.10);
+    --green:      #4ADE80;
+    --green-dim:  rgba(74,222,128,0.10);
+    --red:        #F87171;
+    --text-1:     #F0F2F5;
+    --text-2:     #9AA3B5;
+    --text-3:     #5A6375;
+    --mono:       'JetBrains Mono', monospace;
+    --sans:       'DM Sans', sans-serif;
+    --display:    'Syne', sans-serif;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text-1);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(7,8,13,0.88);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 2rem;
+    display: flex;
+    align-items: center;
+    gap: 0;
+    height: 52px;
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+  nav::-webkit-scrollbar { display: none; }
+  .nav-logo {
+    font-family: var(--display);
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    white-space: nowrap;
+    margin-right: 2rem;
+    flex-shrink: 0;
+  }
+  nav a {
+    color: var(--text-2);
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 400;
+    padding: 0 0.9rem;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    transition: color 0.15s;
+    border-bottom: 2px solid transparent;
+  }
+  nav a:hover { color: var(--text-1); }
+
+  /* ── LAYOUT ── */
+  .wrapper {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 0 2rem;
+  }
+
+  section {
+    padding: 4rem 0;
+    border-bottom: 1px solid var(--border);
+  }
+  section:last-of-type { border-bottom: none; }
+
+  /* ── HERO ── */
+  .hero {
+    padding: 5rem 0 4rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .hero-eyebrow {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--amber);
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 {
+    font-family: var(--display);
+    font-size: clamp(2.4rem, 6vw, 3.8rem);
+    font-weight: 700;
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    margin-bottom: 1.25rem;
+  }
+  .hero h1 span { color: var(--amber); }
+  .hero-sub {
+    font-size: 17px;
+    color: var(--text-2);
+    max-width: 580px;
+    line-height: 1.65;
+    margin-bottom: 2rem;
+  }
+  .hero-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--mono);
+    font-size: 11px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-md);
+    color: var(--text-2);
+    padding: 4px 10px;
+    border-radius: 20px;
+  }
+  .pill-dot {
+    width: 5px; height: 5px;
+    border-radius: 50%;
+    background: var(--green);
+    flex-shrink: 0;
+  }
+
+  /* ── SECTION HEADERS ── */
+  .section-label {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    margin-bottom: 0.4rem;
+  }
+  h2 {
+    font-family: var(--display);
+    font-size: clamp(1.5rem, 4vw, 2rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    color: var(--text-1);
+    margin-bottom: 0.75rem;
+  }
+  .section-intro {
+    font-size: 16px;
+    color: var(--text-2);
+    max-width: 620px;
+    margin-bottom: 2.5rem;
+    line-height: 1.7;
+  }
+  h3 {
+    font-family: var(--display);
+    font-size: 1.05rem;
+    font-weight: 600;
+    color: var(--text-1);
+    margin-bottom: 0.5rem;
+  }
+
+  /* ── CARDS ── */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 1rem;
+  }
+  .card-accent-amber { border-top: 2px solid var(--amber); }
+  .card-accent-cyan  { border-top: 2px solid var(--cyan); }
+  .card-accent-green { border-top: 2px solid var(--green); }
+
+  .card-icon {
+    width: 36px; height: 36px;
+    border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 16px;
+    margin-bottom: 0.85rem;
+    font-family: var(--mono);
+    font-weight: 500;
+    color: var(--amber);
+    background: var(--amber-dim);
+  }
+  .card-icon.cyan  { color: var(--cyan);  background: var(--cyan-dim); }
+  .card-icon.green { color: var(--green); background: var(--green-dim); }
+
+  .card p { font-size: 14px; color: var(--text-2); line-height: 1.6; }
+
+  /* ── RALPH LOOP ── */
+  .loop-diagram {
+    background: var(--bg-surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 2rem;
+    margin: 2rem 0;
+    position: relative;
+    overflow: hidden;
+  }
+  .loop-diagram::before {
+    content: '';
+    position: absolute;
+    top: -60px; right: -60px;
+    width: 200px; height: 200px;
+    border-radius: 50%;
+    background: radial-gradient(circle, rgba(245,166,35,0.06) 0%, transparent 70%);
+    pointer-events: none;
+  }
+  .loop-steps {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0;
+  }
+  .loop-step {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 1rem 1.25rem;
+  }
+  .loop-step-num {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--amber-dim);
+    border: 1.5px solid rgba(245,166,35,0.35);
+    display: flex; align-items: center; justify-content: center;
+    font-family: var(--display);
+    font-size: 14px;
+    font-weight: 700;
+    color: var(--amber);
+    margin-bottom: 0.6rem;
+    flex-shrink: 0;
+  }
+  .loop-step-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-1);
+    letter-spacing: 0.04em;
+    margin-bottom: 0.2rem;
+  }
+  .loop-step-desc {
+    font-size: 12px;
+    color: var(--text-3);
+    max-width: 120px;
+  }
+  .loop-arrow {
+    font-size: 18px;
+    color: var(--border-md);
+    padding: 0 0.25rem;
+    flex-shrink: 0;
+    align-self: center;
+    margin-bottom: 1.8rem;
+  }
+  .loop-back {
+    margin-top: 1rem;
+    text-align: center;
+    font-family: var(--mono);
+    font-size: 11px;
+    color: var(--amber);
+    letter-spacing: 0.06em;
+    padding: 6px 14px;
+    border: 1px dashed rgba(245,166,35,0.3);
+    border-radius: 20px;
+    display: inline-block;
+  }
+  .loop-back-wrap { display: flex; justify-content: center; margin-top: 0.5rem; }
+
+  .info-box {
+    background: var(--amber-dim);
+    border: 1px solid rgba(245,166,35,0.2);
+    border-radius: 8px;
+    padding: 1rem 1.25rem;
+    font-size: 14px;
+    color: var(--text-2);
+    margin: 1.25rem 0;
+  }
+  .info-box strong { color: var(--amber); font-weight: 500; }
+
+  .callout {
+    background: var(--cyan-dim);
+    border-left: 3px solid var(--cyan);
+    padding: 0.75rem 1rem;
+    border-radius: 0 6px 6px 0;
+    font-size: 14px;
+    color: var(--text-2);
+    margin: 1.25rem 0;
+  }
+  .callout strong { color: var(--cyan); font-weight: 500; }
+
+  /* ── PRIMITIVES ── */
+  .primitive-block {
+    margin-bottom: 1.5rem;
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .primitive-header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border);
+  }
+  .primitive-num {
+    font-family: var(--display);
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-3);
+    background: var(--bg-well);
+    width: 24px; height: 24px;
+    border-radius: 6px;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .primitive-title {
+    font-family: var(--display);
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--text-1);
+  }
+  .primitive-subtitle {
+    font-size: 12px;
+    color: var(--text-3);
+    margin-left: auto;
+    font-family: var(--mono);
+    white-space: nowrap;
+  }
+  .primitive-body {
+    padding: 1.25rem 1.5rem;
+    background: var(--bg-surface);
+  }
+  .primitive-body p {
+    font-size: 14px;
+    color: var(--text-2);
+    margin-bottom: 1rem;
+    line-height: 1.65;
+  }
+
+  /* ── SKILLS TABLE ── */
+  .skills-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 0.75rem;
+  }
+  .skills-table th {
+    text-align: left;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    padding: 0 0.75rem 0.5rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .skills-table td {
+    padding: 0.6rem 0.75rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+  }
+  .skills-table tr:last-child td { border-bottom: none; }
+  .skills-table tr:hover td { background: var(--bg-card); }
+  .skills-table .skill-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    color: var(--cyan);
+    white-space: nowrap;
+  }
+  .skills-table .skill-desc { color: var(--text-2); }
+
+  /* ── WORKFLOW ── */
+  .workflow {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    position: relative;
+    padding-left: 2rem;
+  }
+  .workflow::before {
+    content: '';
+    position: absolute;
+    left: 10px;
+    top: 20px;
+    bottom: 20px;
+    width: 1px;
+    background: linear-gradient(to bottom, var(--amber), rgba(245,166,35,0.1));
+  }
+  .workflow-step {
+    position: relative;
+    padding: 0 0 1.75rem 1.5rem;
+  }
+  .workflow-step::before {
+    content: '';
+    position: absolute;
+    left: -2rem;
+    top: 6px;
+    width: 10px; height: 10px;
+    border-radius: 50%;
+    background: var(--amber);
+    border: 2px solid var(--bg);
+    box-shadow: 0 0 0 3px rgba(245,166,35,0.2);
+  }
+  .workflow-step.dim::before { background: var(--text-3); box-shadow: none; }
+  .workflow-step-label {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--amber);
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    margin-bottom: 0.25rem;
+  }
+  .workflow-step.dim .workflow-step-label { color: var(--text-3); }
+  .workflow-step h3 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    margin-bottom: 0.4rem;
+    font-family: var(--display);
+  }
+  .workflow-step p {
+    font-size: 14px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+  .workflow-step ul {
+    margin-top: 0.4rem;
+    padding-left: 1.1rem;
+  }
+  .workflow-step ul li {
+    font-size: 13px;
+    color: var(--text-2);
+    margin-bottom: 0.2rem;
+  }
+  code, .code-tag {
+    font-family: var(--mono);
+    font-size: 12px;
+    background: var(--bg-well);
+    color: var(--cyan);
+    padding: 1px 6px;
+    border-radius: 4px;
+    border: 1px solid var(--border-md);
+  }
+
+  /* ── KEYBOARD SHORTCUTS ── */
+  .shortcuts-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+  }
+  .shortcuts-group {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
+  }
+  .shortcuts-group-header {
+    padding: 0.6rem 1rem;
+    background: var(--bg-well);
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-3);
+    border-bottom: 1px solid var(--border);
+  }
+  .shortcut-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.55rem 1rem;
+    border-bottom: 1px solid var(--border);
+  }
+  .shortcut-row:last-child { border-bottom: none; }
+  .shortcut-action {
+    font-size: 13px;
+    color: var(--text-2);
+    flex: 1;
+    padding-right: 1rem;
+  }
+  .shortcut-keys {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    flex-shrink: 0;
+  }
+  kbd {
+    font-family: var(--mono);
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--text-1);
+    background: var(--bg-well);
+    border: 1px solid var(--border-md);
+    border-bottom-width: 2px;
+    border-radius: 5px;
+    padding: 2px 7px;
+    white-space: nowrap;
+  }
+  .key-plus {
+    font-size: 11px;
+    color: var(--text-3);
+    padding: 0 1px;
+  }
+  .shortcut-row:hover { background: rgba(255,255,255,0.025); }
+
+  /* ── PREFIX TABLE ── */
+  .prefix-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 0.75rem;
+    margin-top: 1rem;
+  }
+  .prefix-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    padding: 0.85rem 1rem;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+  .prefix-key {
+    font-family: var(--mono);
+    font-size: 20px;
+    font-weight: 500;
+    color: var(--amber);
+    line-height: 1;
+    flex-shrink: 0;
+    min-width: 24px;
+    text-align: center;
+    margin-top: 2px;
+  }
+  .prefix-key.cyan { color: var(--cyan); }
+  .prefix-key.green { color: var(--green); }
+  .prefix-info .prefix-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--text-1);
+    margin-bottom: 2px;
+  }
+  .prefix-info .prefix-desc {
+    font-size: 12px;
+    color: var(--text-3);
+    line-height: 1.45;
+  }
+
+  /* ── SLASH COMMANDS ── */
+  .cmd-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 0.5rem;
+  }
+  .cmd-row {
+    display: flex;
+    align-items: flex-start;
+    gap: 0.75rem;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 0.65rem 0.9rem;
+  }
+  .cmd-name {
+    font-family: var(--mono);
+    font-size: 12px;
+    font-weight: 500;
+    color: var(--cyan);
+    white-space: nowrap;
+    flex-shrink: 0;
+    min-width: 110px;
+  }
+  .cmd-desc {
+    font-size: 12.5px;
+    color: var(--text-2);
+    line-height: 1.5;
+  }
+
+  /* ── TIPS ── */
+  .tips-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+  }
+  .tip-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 1.25rem;
+    position: relative;
+  }
+  .tip-num {
+    font-family: var(--display);
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: rgba(255,255,255,0.04);
+    position: absolute;
+    top: 0.5rem;
+    right: 1rem;
+    line-height: 1;
+  }
+  .tip-card h3 {
+    font-size: 0.9rem;
+    margin-bottom: 0.5rem;
+  }
+  .tip-card p {
+    font-size: 13px;
+    color: var(--text-2);
+    line-height: 1.6;
+  }
+
+  /* ── FOOTER ── */
+  footer {
+    text-align: center;
+    padding: 3rem 2rem;
+    font-size: 12px;
+    color: var(--text-3);
+    font-family: var(--mono);
+    letter-spacing: 0.06em;
+  }
+  footer a { color: var(--cyan); text-decoration: none; }
+
+  /* ── HELPERS ── */
+  .mt-1 { margin-top: 0.5rem; }
+  .mt-2 { margin-top: 1rem; }
+  .mt-3 { margin-top: 1.5rem; }
+  .mb-2 { margin-bottom: 1rem; }
+
+  .two-col {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
+  }
+  @media (max-width: 640px) {
+    .two-col { grid-template-columns: 1fr; }
+    .loop-steps { flex-direction: column; }
+    .loop-arrow { transform: rotate(90deg); margin: 0; }
+    nav { padding: 0 1rem; }
+    .wrapper { padding: 0 1.25rem; }
+    section { padding: 3rem 0; }
+  }
+
+  .divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+  }
+
+  .tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+  }
+  .tag-amber { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(245,166,35,0.25); }
+  .tag-cyan  { background: var(--cyan-dim);  color: var(--cyan);  border: 1px solid rgba(56,217,245,0.2); }
+  .tag-green { background: var(--green-dim); color: var(--green); border: 1px solid rgba(74,222,128,0.2); }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-logo">Claude Code</div>
+  <a href="#what-is">What is it</a>
+  <a href="#ralph">The Loop</a>
+  <a href="#primitives">Primitives</a>
+  <a href="#workflow">Workflow</a>
+  <a href="#shortcuts">Shortcuts</a>
+  <a href="#commands">Commands</a>
+  <a href="#start">First Steps</a>
+</nav>
+
+<!-- HERO -->
+<div class="wrapper">
+  <div class="hero">
+    <p class="hero-eyebrow">Field Guide — v2025</p>
+    <h1>Claude Code:<br><span>How it actually works</span></h1>
+    <p class="hero-sub">A practical orientation for new users — covering the autonomous loop model, the five core primitives, keyboard shortcuts, and how to get something real done on day one.</p>
+    <div class="hero-pills">
+      <span class="pill"><span class="pill-dot"></span> Autonomous agent loops</span>
+      <span class="pill"><span class="pill-dot"></span> Plan → Execute → Verify</span>
+      <span class="pill"><span class="pill-dot"></span> Keyboard shortcuts</span>
+      <span class="pill"><span class="pill-dot"></span> Slash commands</span>
+    </div>
+  </div>
+
+  <!-- WHAT IS CLAUDE CODE -->
+  <section id="what-is">
+    <p class="section-label">01 — Overview</p>
+    <h2>What is Claude Code?</h2>
+    <p class="section-intro">Claude Code is a command-line AI agent that works directly inside your codebase — reading files, writing code, running tests, and making changes autonomously. It is not a chat interface you paste code into.</p>
+
+    <div class="card-grid">
+      <div class="card card-accent-amber">
+        <div class="card-icon">≠</div>
+        <h3>Not a chatbot</h3>
+        <p>Claude Code operates as an agent in your terminal. It has full access to your file system, can run commands, and executes multi-step tasks without you copy-pasting anything.</p>
+      </div>
+      <div class="card card-accent-cyan">
+        <div class="card-icon cyan">↻</div>
+        <h3>Plan → Execute → Verify</h3>
+        <p>Every serious task follows a deliberate rhythm: Claude explores, writes a plan for your approval, then executes — pausing at checkpoints and verifying results before calling anything done.</p>
+      </div>
+      <div class="card card-accent-green">
+        <div class="card-icon green">⊕</div>
+        <h3>You stay in control</h3>
+        <p>Plan files require your approval before a single file changes. You can interrupt at any time, rewind to a prior state, or redirect. Claude doesn't hide what it's doing.</p>
+      </div>
+    </div>
+
+    <div class="callout mt-3">
+      <strong>Install:</strong> <code>curl -fsSL https://claude.ai/install.sh | bash</code> &nbsp;·&nbsp; then <code>cd your-project && claude</code>
+    </div>
+  </section>
+
+  <!-- RALPH LOOP -->
+  <section id="ralph">
+    <p class="section-label">02 — The Mental Model</p>
+    <h2>The Ralph Loop</h2>
+    <p class="section-intro">Claude Code is built around a pattern called the Ralph loop — a simple idea that explains <em>why</em> the tool works the way it does. Understanding this changes how you use it.</p>
+
+    <p style="font-size:15px; color:var(--text-2); margin-bottom:1.25rem; line-height:1.7;">
+      Coined by Geoffrey Huntley and popularized when Claude Code's creator Boris Cherny shared the pattern, the Ralph loop describes a way to use AI coding agents that actually works reliably: instead of one long conversation that gradually loses focus, you run repeated short loops — each with fresh context — until the job is done. Memory lives in files, not in the model.
+    </p>
+
+    <div class="loop-diagram">
+      <div class="loop-steps">
+        <div class="loop-step">
+          <div class="loop-step-num">1</div>
+          <div class="loop-step-label">Allocate context</div>
+          <div class="loop-step-desc">Give Claude only what it needs for this iteration</div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <div class="loop-step-num">2</div>
+          <div class="loop-step-label">Set goal</div>
+          <div class="loop-step-desc">Define one clear, bounded task</div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <div class="loop-step-num">3</div>
+          <div class="loop-step-label">Execute</div>
+          <div class="loop-step-desc">Claude works autonomously until a checkpoint</div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <div class="loop-step-num">4</div>
+          <div class="loop-step-label">Verify</div>
+          <div class="loop-step-desc">Check real output — never trust "it looks right"</div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step">
+          <div class="loop-step-num">5</div>
+          <div class="loop-step-label">Persist & repeat</div>
+          <div class="loop-step-desc">Save progress to files, loop with fresh context</div>
+        </div>
+      </div>
+      <div class="loop-back-wrap">
+        <div class="loop-back">↻ loop until done · memory lives in files not the model</div>
+      </div>
+    </div>
+
+    <div class="info-box">
+      <strong>The core insight:</strong> AI agents degrade in long conversations. The longer the context grows, the more Claude loses focus and makes mistakes. The Ralph loop fixes this by keeping each iteration short and bounded — all continuity is stored in plan files, task lists, and git history, not in the conversation. A deterministic loop operating in a non-deterministic environment.
+    </div>
+
+    <div class="divider"></div>
+    <h3 style="margin-bottom:1rem;">How Claude Code implements the loop natively</h3>
+
+    <div class="card-grid">
+      <div class="card">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Loop concept</div>
+        <div style="font-size:14px;color:var(--text-2);font-weight:500;margin-bottom:0.15rem;">Allocate context</div>
+        <div style="font-size:12px;color:var(--text-3);">Give the agent only what it needs</div>
+        <div class="divider" style="margin:0.75rem 0;"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Claude Code equivalent</div>
+        <div style="font-size:14px;color:var(--cyan);">Plan file + focused subagent prompts</div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Loop concept</div>
+        <div style="font-size:14px;color:var(--text-2);font-weight:500;margin-bottom:0.15rem;">Set goal</div>
+        <div style="font-size:12px;color:var(--text-3);">One clear, bounded objective</div>
+        <div class="divider" style="margin:0.75rem 0;"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Claude Code equivalent</div>
+        <div style="font-size:14px;color:var(--cyan);"><code>/plan</code> → writes a scoped plan file</div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Loop concept</div>
+        <div style="font-size:14px;color:var(--text-2);font-weight:500;margin-bottom:0.15rem;">Loop until done</div>
+        <div style="font-size:12px;color:var(--text-3);">Repeat until criteria met</div>
+        <div class="divider" style="margin:0.75rem 0;"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Claude Code equivalent</div>
+        <div style="font-size:14px;color:var(--cyan);">superpowers:executing-plans + <code>/loop</code></div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Loop concept</div>
+        <div style="font-size:14px;color:var(--text-2);font-weight:500;margin-bottom:0.15rem;">Observe failure, fix, prevent</div>
+        <div style="font-size:12px;color:var(--text-3);">Structured debugging on errors</div>
+        <div class="divider" style="margin:0.75rem 0;"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Claude Code equivalent</div>
+        <div style="font-size:14px;color:var(--cyan);">superpowers:systematic-debugging</div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Loop concept</div>
+        <div style="font-size:14px;color:var(--text-2);font-weight:500;margin-bottom:0.15rem;">Persist memory in files</div>
+        <div style="font-size:12px;color:var(--text-3);">Not in the conversation history</div>
+        <div class="divider" style="margin:0.75rem 0;"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Claude Code equivalent</div>
+        <div style="font-size:14px;color:var(--cyan);">Plan files in <code>~/.claude/plans/</code> · git history</div>
+      </div>
+      <div class="card">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Loop concept</div>
+        <div style="font-size:14px;color:var(--text-2);font-weight:500;margin-bottom:0.15rem;">Verify before claiming success</div>
+        <div style="font-size:12px;color:var(--text-3);">Evidence, not assumptions</div>
+        <div class="divider" style="margin:0.75rem 0;"></div>
+        <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);letter-spacing:0.1em;text-transform:uppercase;margin-bottom:0.35rem;">Claude Code equivalent</div>
+        <div style="font-size:14px;color:var(--cyan);">superpowers:verification-before-completion</div>
+      </div>
+    </div>
+
+    <div class="callout mt-3">
+      <strong>Task sizing matters:</strong> Each task in your plan should be small enough to complete in one context window. "Add a filter to the dashboard" ✓ — "Rebuild the entire API" ✗. Large tasks cause context bloat and poor output. When in doubt, slice smaller.
+    </div>
+  </section>
+
+  <!-- PRIMITIVES -->
+  <section id="primitives">
+    <p class="section-label">03 — Core Mechanics</p>
+    <h2>The Five Primitives</h2>
+    <p class="section-intro">Claude Code gives you five building blocks. Skills and subagents are the most important to understand. The rest work mostly behind the scenes once you know the loop.</p>
+
+    <!-- Primitive 1: Skills -->
+    <div class="primitive-block">
+      <div class="primitive-header">
+        <div class="primitive-num">1</div>
+        <div class="primitive-title">Skills</div>
+        <div class="primitive-subtitle">tells Claude HOW to work</div>
+      </div>
+      <div class="primitive-body">
+        <p>Skills are named, built-in workflows that override Claude's default approach. Instead of improvising, Claude follows a proven process. Invoke them by name in your prompt — Claude will announce which skill it's using and why before it starts.</p>
+        <p>Think of skills as the difference between asking a new hire to "fix that bug" versus "follow our structured debugging runbook on that bug." Same request, very different process and reliability.</p>
+        <table class="skills-table">
+          <thead>
+            <tr>
+              <th>Skill</th>
+              <th>Use when</th>
+              <th>What it does differently</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="skill-name">superpowers:brainstorming</td>
+              <td class="skill-desc">Before building anything</td>
+              <td class="skill-desc">Explores intent and alternatives before jumping to solutions</td>
+            </tr>
+            <tr>
+              <td class="skill-name">superpowers:writing-plans</td>
+              <td class="skill-desc">Turning requirements into a plan</td>
+              <td class="skill-desc">Produces a structured, bounded plan file with clear acceptance criteria</td>
+            </tr>
+            <tr>
+              <td class="skill-name">superpowers:executing-plans</td>
+              <td class="skill-desc">Running a plan you've approved</td>
+              <td class="skill-desc">Works through plan steps with checkpoints for review between phases</td>
+            </tr>
+            <tr>
+              <td class="skill-name">superpowers:systematic-debugging</td>
+              <td class="skill-desc">Any bug or unexpected behavior</td>
+              <td class="skill-desc">Diagnoses root cause first, then fixes — never guesses first</td>
+            </tr>
+            <tr>
+              <td class="skill-name">superpowers:verification-before-completion</td>
+              <td class="skill-desc">Before declaring anything done</td>
+              <td class="skill-desc">Runs tests and inspects real output — no success without evidence</td>
+            </tr>
+            <tr>
+              <td class="skill-name">superpowers:test-driven-development</td>
+              <td class="skill-desc">When implementing new features</td>
+              <td class="skill-desc">Writes failing tests first, then implements to make them pass</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Primitive 2: Subagents -->
+    <div class="primitive-block">
+      <div class="primitive-header">
+        <div class="primitive-num">2</div>
+        <div class="primitive-title">Subagents</div>
+        <div class="primitive-subtitle">Agent tool · parallel workers</div>
+      </div>
+      <div class="primitive-body">
+        <p>For larger tasks, Claude spawns specialized child agents — each given exactly the context they need and nothing more. This <em>is</em> the Ralph loop's "allocate context" discipline in action: fresh instances, tight scope.</p>
+        <p>Multiple subagents can run concurrently for independent sub-problems, which makes execution significantly faster. You don't manage them directly — they appear automatically when you use <code>/plan</code> or <code>superpowers:executing-plans</code>.</p>
+        <div class="card-grid mt-2">
+          <div class="card">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-bottom:0.5rem;letter-spacing:0.08em;text-transform:uppercase;">Explore agent</div>
+            <p>Read-only codebase investigation. Understands structure and finds relevant files without touching anything.</p>
+          </div>
+          <div class="card">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-bottom:0.5rem;letter-spacing:0.08em;text-transform:uppercase;">Plan agent</div>
+            <p>Designs the approach for a specific task based on what the Explore agents discovered.</p>
+          </div>
+          <div class="card">
+            <div style="font-family:var(--mono);font-size:11px;color:var(--text-3);margin-bottom:0.5rem;letter-spacing:0.08em;text-transform:uppercase;">General-purpose agent</div>
+            <p>Does the actual work: research, implementation, running commands, multi-step changes.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Primitive 3: Plan Files -->
+    <div class="primitive-block">
+      <div class="primitive-header">
+        <div class="primitive-num">3</div>
+        <div class="primitive-title">Plan Files</div>
+        <div class="primitive-subtitle">~/.claude/plans/ · the contract</div>
+      </div>
+      <div class="primitive-body">
+        <p>When you run <code>/plan</code>, Claude writes a structured Markdown file capturing: what it understands about your goal, what it found in the codebase, the specific steps it will take, and what "done" looks like. Nothing changes until you approve it.</p>
+        <p>Plan files are also the Ralph loop's persistent memory — they survive across sessions, so you can stop and pick up exactly where you left off. Think of a plan file as a contract: Claude won't change your code until you've signed off.</p>
+      </div>
+    </div>
+
+    <!-- Primitive 4: Tasks -->
+    <div class="primitive-block">
+      <div class="primitive-header">
+        <div class="primitive-num">4</div>
+        <div class="primitive-title">Tasks</div>
+        <div class="primitive-subtitle">TaskCreate · TaskUpdate · TaskList</div>
+      </div>
+      <div class="primitive-body">
+        <p>While executing a plan, Claude maintains a live task checklist. Tasks are created automatically from plan items and updated as Claude works through them. You'll see them referenced in Claude's output as it progresses. Mostly automatic — you observe rather than manage.</p>
+      </div>
+    </div>
+
+    <!-- Primitive 5: /loop -->
+    <div class="primitive-block">
+      <div class="primitive-header">
+        <div class="primitive-num">5</div>
+        <div class="primitive-title">/loop</div>
+        <div class="primitive-subtitle">autonomous iteration command</div>
+      </div>
+      <div class="primitive-body">
+        <p>The Ralph loop made into a single command. Give Claude a clear goal and let it run autonomously — checking its own work and looping until done. Two modes:</p>
+        <div class="two-col mt-2">
+          <div class="card">
+            <div style="font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:0.5rem;">/loop</div>
+            <p>Self-paced autonomous execution. Claude runs until it produces a completion signal. Best for well-defined tasks with clear acceptance criteria.</p>
+          </div>
+          <div class="card">
+            <div style="font-family:var(--mono);font-size:13px;color:var(--cyan);margin-bottom:0.5rem;">/loop 5m /check-deploy</div>
+            <p>Scheduled recurring loop. Runs the command every 5 minutes. Useful for monitoring, polling, or CI/CD-style automation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WORKFLOW -->
+  <section id="workflow">
+    <p class="section-label">04 — End to End</p>
+    <h2>A Complete Workflow</h2>
+    <p class="section-intro">Here's how a real task moves from idea to shipped — using the loop model and the primitives together.</p>
+
+    <div class="workflow">
+      <div class="workflow-step">
+        <div class="workflow-step-label">You</div>
+        <h3>Describe what you want</h3>
+        <p>Write out the feature, bug, or refactor in plain language. The more specific you are — what the code does, what's broken, what "done" looks like — the better Claude's plan will be. Vague prompts produce vague plans.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-label">Command</div>
+        <h3><code>/plan</code> — Claude enters plan mode</h3>
+        <p>Claude spawns Explore subagents to read the relevant parts of your codebase, then a Plan subagent to design the approach. It will ask clarifying questions before writing anything. The result is a plan file in <code>~/.claude/plans/</code> for your review.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-label">You</div>
+        <h3>Read and approve the plan</h3>
+        <p>This takes two minutes and prevents hours of surprises. If something looks off, say so — Claude will revise. No code changes until you approve. This is the loop's "allocate context" step — you're verifying Claude understood the task correctly.</p>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-label">Skill</div>
+        <h3>superpowers:executing-plans takes over</h3>
+        <p>Claude reads the plan file and works through it step by step, spawning parallel subagents for independent tasks. It pauses at review checkpoints between phases. You stay informed without having to babysit every action.</p>
+        <ul>
+          <li>Subagents run concurrently where tasks are independent</li>
+          <li>Progress tracked via the live task list</li>
+          <li>Each iteration stays within a bounded context window</li>
+        </ul>
+      </div>
+      <div class="workflow-step">
+        <div class="workflow-step-label">Skill</div>
+        <h3>superpowers:verification-before-completion</h3>
+        <p>Before Claude tells you it's done, it runs tests, checks actual output, and confirms results. No success is claimed without real evidence. This is the loop's "verify" step — the most important one most people skip.</p>
+      </div>
+      <div class="workflow-step dim">
+        <div class="workflow-step-label">Optional</div>
+        <h3>superpowers:requesting-code-review → PR or merge</h3>
+        <p>Claude can open a pull request or hand off for merge once verification passes.</p>
+      </div>
+    </div>
+
+    <div class="info-box mt-2">
+      <strong>For fully autonomous work:</strong> once you trust the plan, swap to <code>/loop</code> and let Claude iterate until done. Review the output afterward. The plan file and git history give you a complete audit trail of what happened.
+    </div>
+  </section>
+
+  <!-- KEYBOARD SHORTCUTS -->
+  <section id="shortcuts">
+    <p class="section-label">05 — Keyboard Reference</p>
+    <h2>Keyboard Shortcuts</h2>
+    <p class="section-intro">All shortcuts work in the terminal while Claude Code is running. On macOS Terminal.app, enable Option as Meta Key: <strong>Settings → Profiles → Keyboard → "Use Option as Meta Key."</strong></p>
+
+    <div class="shortcuts-grid">
+      <div class="shortcuts-group">
+        <div class="shortcuts-group-header">Input control</div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Cancel input or stop generation</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>C</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Interrupt Claude mid-response</div>
+          <div class="shortcut-keys"><kbd>Esc</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Clear entire line</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>U</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Delete to end of line</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>K</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Paste deleted text</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>Y</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Paste image from clipboard</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>V</kbd></div>
+        </div>
+      </div>
+
+      <div class="shortcuts-group">
+        <div class="shortcuts-group-header">Submitting messages</div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Send message</div>
+          <div class="shortcut-keys"><kbd>Enter</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">New line (multiline input)</div>
+          <div class="shortcut-keys"><kbd>Option</kbd><span class="key-plus">+</span><kbd>Enter</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">New line (all terminals)</div>
+          <div class="shortcut-keys"><kbd>\</kbd><span class="key-plus">+</span><kbd>Enter</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Line feed (alternative)</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>J</kbd></div>
+        </div>
+      </div>
+
+      <div class="shortcuts-group">
+        <div class="shortcuts-group-header">Navigation &amp; history</div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Browse command history</div>
+          <div class="shortcut-keys"><kbd>↑</kbd> <kbd>↓</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Search command history</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>R</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Move back one word</div>
+          <div class="shortcut-keys"><kbd>Alt</kbd><span class="key-plus">+</span><kbd>B</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Move forward one word</div>
+          <div class="shortcut-keys"><kbd>Alt</kbd><span class="key-plus">+</span><kbd>F</kbd></div>
+        </div>
+      </div>
+
+      <div class="shortcuts-group">
+        <div class="shortcuts-group-header">Session control</div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Rewind to previous state (undo)</div>
+          <div class="shortcut-keys"><kbd>Esc</kbd><kbd>Esc</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Clear screen (keeps conversation)</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>L</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Toggle permission mode ("yolo")</div>
+          <div class="shortcut-keys"><kbd>Shift</kbd><span class="key-plus">+</span><kbd>Tab</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Enter plan mode</div>
+          <div class="shortcut-keys"><kbd>Shift</kbd><span class="key-plus">+</span><kbd>Tab</kbd><kbd>Tab</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Switch model (no context loss)</div>
+          <div class="shortcut-keys"><kbd>Option</kbd><span class="key-plus">+</span><kbd>P</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Toggle extended thinking</div>
+          <div class="shortcut-keys"><kbd>Option</kbd><span class="key-plus">+</span><kbd>T</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Show all shortcuts</div>
+          <div class="shortcut-keys"><kbd>?</kbd></div>
+        </div>
+        <div class="shortcut-row">
+          <div class="shortcut-action">Exit Claude Code</div>
+          <div class="shortcut-keys"><kbd>Ctrl</kbd><span class="key-plus">+</span><kbd>D</kbd></div>
+        </div>
+      </div>
+    </div>
+
+    <h3 style="margin-bottom:0.75rem;">Quick input prefixes</h3>
+    <p style="font-size:14px;color:var(--text-2);margin-bottom:0.75rem;">Type these at the start of any input to change what happens:</p>
+    <div class="prefix-grid">
+      <div class="prefix-card">
+        <div class="prefix-key">/</div>
+        <div class="prefix-info">
+          <div class="prefix-name">Slash command</div>
+          <div class="prefix-desc">Invoke built-in commands like /plan, /clear, /memory</div>
+        </div>
+      </div>
+      <div class="prefix-card">
+        <div class="prefix-key cyan">!</div>
+        <div class="prefix-info">
+          <div class="prefix-name">Run bash directly</div>
+          <div class="prefix-desc">e.g. <code>!ls</code> or <code>!git status</code> — executes shell commands</div>
+        </div>
+      </div>
+      <div class="prefix-card">
+        <div class="prefix-key green">@</div>
+        <div class="prefix-info">
+          <div class="prefix-name">File reference</div>
+          <div class="prefix-desc">Autocomplete file/folder paths to include in your prompt</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout mt-3">
+      <strong>Rewind is your safety net:</strong> <kbd>Esc</kbd><kbd>Esc</kbd> opens a menu to restore prior states. You can rewind just the conversation, just the code changes, or both. Use checkpoints for quick recovery; use git for permanent history.
+    </div>
+  </section>
+
+  <!-- SLASH COMMANDS -->
+  <section id="commands">
+    <p class="section-label">06 — Slash Commands</p>
+    <h2>Slash Command Reference</h2>
+    <p class="section-intro">Type any slash command directly in the Claude Code chat interface. These control Claude's state and configuration during a session.</p>
+
+    <div class="cmd-grid">
+      <div class="cmd-row">
+        <div class="cmd-name">/plan</div>
+        <div class="cmd-desc">Enter plan mode — Claude explores, asks questions, writes a plan file</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/loop</div>
+        <div class="cmd-desc">Start an autonomous iteration loop until goal is reached</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/init</div>
+        <div class="cmd-desc">Create a CLAUDE.md for your project — persistent instructions Claude reads every session</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/memory</div>
+        <div class="cmd-desc">Edit CLAUDE.md memory files directly</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/clear</div>
+        <div class="cmd-desc">Clear conversation history (start fresh, files untouched)</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/compact</div>
+        <div class="cmd-desc">Compress conversation context when it grows large, with optional focus instructions</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/rewind</div>
+        <div class="cmd-desc">Open the rewind menu to restore a prior state (also Esc+Esc)</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/review</div>
+        <div class="cmd-desc">Request a code review of current changes</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/cost</div>
+        <div class="cmd-desc">Show token usage and cost for this session</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/status</div>
+        <div class="cmd-desc">View account and system status</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/model</div>
+        <div class="cmd-desc">Select or switch the AI model mid-session</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/vim</div>
+        <div class="cmd-desc">Enable vim mode for insert/command alternation in the input</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/doctor</div>
+        <div class="cmd-desc">Check installation health — also shows any keybinding warnings</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/help</div>
+        <div class="cmd-desc">Show available commands and usage help</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/terminal-setup</div>
+        <div class="cmd-desc">Configure Shift+Enter keybinding for multiline input (iTerm2/VS Code)</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/sandbox</div>
+        <div class="cmd-desc">Enable sandboxed bash with filesystem and network isolation</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/permissions</div>
+        <div class="cmd-desc">View or update what Claude is allowed to do</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/agents</div>
+        <div class="cmd-desc">Manage custom AI subagents for specialized tasks</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/keybindings</div>
+        <div class="cmd-desc">Create or open your custom keybindings config at ~/.claude/keybindings.json</div>
+      </div>
+      <div class="cmd-row">
+        <div class="cmd-name">/pr_comments</div>
+        <div class="cmd-desc">View pull request comments inline</div>
+      </div>
+    </div>
+
+    <div class="info-box mt-3">
+      <strong>Custom commands:</strong> Create your own slash commands by adding Markdown files to <code>.claude/commands/</code> (shared with your team) or <code>~/.claude/commands/</code> (personal, all projects). Invoke with <code>/filename</code>. Use <code>$ARGUMENTS</code> for dynamic input, or <code>!`git status`</code> to inject live shell output.
+    </div>
+  </section>
+
+  <!-- FIRST STEPS -->
+  <section id="start">
+    <p class="section-label">07 — Getting Started</p>
+    <h2>Your First Four Sessions</h2>
+    <p class="section-intro">Do these in order. Each one builds intuition you'll need for the next.</p>
+
+    <div class="tips-grid">
+      <div class="tip-card">
+        <div class="tip-num">1</div>
+        <h3>Run <code>/plan</code> on something real</h3>
+        <p>Don't start by asking Claude to write code. Pick a real task — a bug fix, a small feature — and run <code>/plan</code> first. Watch Claude explore your codebase, ask questions, and write a plan. Read it before approving. This builds the core habit.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">2</div>
+        <h3>Use a skill explicitly</h3>
+        <p>Find a bug. Instead of "can you look at this bug," say "use superpowers:systematic-debugging to investigate why X is happening." Notice how the output is more structured and methodical. Skills are not just names — they change the process significantly.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">3</div>
+        <h3>Run <code>/loop</code> on a bounded task</h3>
+        <p>Take something small and well-defined. Write it up clearly with an explicit success condition ("done when all tests pass"). Run <code>/loop</code> and let Claude iterate. Review the result and the git diff afterward.</p>
+      </div>
+      <div class="tip-card">
+        <div class="tip-num">4</div>
+        <h3>Create a <code>CLAUDE.md</code></h3>
+        <p>Run <code>/init</code> in your project. This creates a file Claude reads at the start of every session — your team's coding standards, architecture decisions, things Claude should always know. The more useful this file is, the better every session gets.</p>
+      </div>
+    </div>
+
+    <div class="card mt-3">
+      <h3 style="margin-bottom:0.75rem;">Things worth knowing before you start</h3>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:0.75rem;">
+        <div>
+          <div class="tag tag-amber">Context</div>
+          <p style="font-size:13px;color:var(--text-2);margin-top:0.4rem;line-height:1.6;">More specific prompts produce better plans. Include what the code does, what's wrong, and what "done" looks like. Vague in, vague out.</p>
+        </div>
+        <div>
+          <div class="tag tag-cyan">Skills</div>
+          <p style="font-size:13px;color:var(--text-2);margin-top:0.4rem;line-height:1.6;">Naming skills explicitly — not just describing what you want — produces significantly more reliable results. "Use systematic-debugging" ≠ "debug this."</p>
+        </div>
+        <div>
+          <div class="tag tag-green">Plans</div>
+          <p style="font-size:13px;color:var(--text-2);margin-top:0.4rem;line-height:1.6;">Always read the plan before approving. This is the cheapest possible time to catch a misunderstanding — before a single file changes.</p>
+        </div>
+        <div>
+          <div class="tag tag-amber">Tasks</div>
+          <p style="font-size:13px;color:var(--text-2);margin-top:0.4rem;line-height:1.6;">Slice tasks small. "Add a filter to the table" is a good task. "Rebuild the dashboard" is not. Large tasks cause context overflow and poor output.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</div>
+
+<footer>
+  Claude Code Field Guide &nbsp;·&nbsp; Updated May 2026 &nbsp;·&nbsp;
+  <a href="https://docs.claude.com/en/docs/claude-code/overview">docs.claude.com</a>
+</footer>
+
+</body>
+</html>
