@@ -1,0 +1,152 @@
+
+<style>
+*{box-sizing:border-box}
+#wrap{padding:16px 8px 10px;font-family:var(--font-sans)}
+.title-row{display:flex;align-items:center;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+.pill{font-size:14px;font-weight:600;padding:4px 12px;border-radius:6px;border:0.5px solid;white-space:nowrap}
+.pill-lx{background:#EEEDFE;color:#26215C;border-color:#7F77DD}
+.pill-os{background:#E6F1FB;color:#042C53;border-color:#185FA5}
+.arr-lg{font-size:18px;color:var(--color-text-tertiary)}
+.sub{font-size:11px;color:var(--color-text-secondary);margin-bottom:14px}
+@media(prefers-color-scheme:dark){
+.pill-lx{background:#26215C;color:#EEEDFE;border-color:#AFA9EC}
+.pill-os{background:#0C447C;color:#E6F1FB;border-color:#85B7EB}
+}
+
+.grid{display:grid;grid-template-columns:1fr 18px 1.55fr 58px;gap:3px 6px;align-items:stretch}
+.gh{font-size:10px;font-weight:500;letter-spacing:.05em;text-transform:uppercase;color:var(--color-text-tertiary);padding:0 8px 6px;border-bottom:0.5px solid var(--color-border-tertiary)}
+.lc{background:var(--color-background-secondary);border-radius:6px;padding:7px 10px;border:0.5px solid var(--color-border-secondary);display:flex;flex-direction:column;gap:2px}
+.lf{font-size:11px;font-weight:500;color:var(--color-text-primary)}
+.lv{font-size:10px;color:var(--color-text-secondary);font-family:var(--font-mono);line-height:1.4;margin-top:1px}
+.oc{background:#F4F3FF;border-radius:6px;padding:7px 10px;border:0.5px solid #C8C4F8;display:flex;flex-direction:column;gap:2px}
+.op{font-size:10.5px;font-family:var(--font-mono);color:#26215C;line-height:1.4;word-break:break-all}
+.on{font-size:10px;color:#534AB7;margin-top:2px;line-height:1.4}
+@media(prefers-color-scheme:dark){
+.oc{background:#1C1940;border-color:#534AB7}
+.op{color:#CECBF6}
+.on{color:#AFA9EC}
+}
+.ar{display:flex;align-items:center;justify-content:center;color:var(--color-text-tertiary);font-size:13px}
+.tag{font-size:10px;font-weight:500;padding:3px 7px;border-radius:10px;white-space:nowrap;text-align:center;display:flex;align-items:center;justify-content:center;border:0.5px solid}
+.t-ssp{background:#EEEDFE;color:#3C3489;border-color:#7F77DD}
+.t-pro{background:#E6F1FB;color:#0C447C;border-color:#185FA5}
+.t-ap{background:#E1F5EE;color:#04342C;border-color:#1D9E75}
+@media(prefers-color-scheme:dark){
+.t-ssp{background:#26215C;color:#CECBF6;border-color:#534AB7}
+.t-pro{background:#0C447C;color:#B5D4F4;border-color:#85B7EB}
+.t-ap{background:#04342C;color:#9FE1CB;border-color:#5DCAA5}
+}
+.row-div{grid-column:1/-1;height:0.5px;background:var(--color-border-tertiary);margin:1px 0}
+
+.docs{display:flex;gap:8px;margin-top:14px}
+.db{flex:1;border-radius:8px;padding:10px 12px;border:0.5px solid}
+.db-pro{background:#E6F1FB;border-color:#185FA5;color:#0C447C}
+.db-ssp{background:#EEEDFE;border-color:#7F77DD;color:#26215C}
+.db-ap{background:#E1F5EE;border-color:#1D9E75;color:#04342C}
+@media(prefers-color-scheme:dark){
+.db-pro{background:#0C447C;border-color:#85B7EB;color:#B5D4F4}
+.db-ssp{background:#26215C;border-color:#AFA9EC;color:#EEEDFE}
+.db-ap{background:#04342C;border-color:#5DCAA5;color:#9FE1CB}
+}
+.db-title{font-size:12px;font-weight:500;margin-bottom:3px}
+.db-sub{font-size:11px;opacity:.85;line-height:1.5}
+
+.vnote{margin-top:10px;padding:9px 12px;background:var(--color-background-secondary);border-radius:6px;border:0.5px solid var(--color-border-secondary);font-size:11px;color:var(--color-text-secondary);line-height:1.6}
+.vb{font-weight:500;color:var(--color-text-primary)}
+</style>
+
+<div id="wrap">
+  <div class="title-row">
+    <span class="pill pill-lx">REQ-IAM-001.v1</span>
+    <span class="arr-lg">→</span>
+    <span class="pill pill-os">REQ-IAM-001.v1.OSCAL</span>
+  </div>
+  <div class="sub">Same requirement. Different format. Field mapping only — no rewriting, no reanalysis. The UUID is the bridge.</div>
+
+  <div class="grid">
+    <div class="gh">LeanIX requirement field</div>
+    <div></div>
+    <div class="gh">OSCAL element</div>
+    <div class="gh">Document</div>
+
+    <div class="lc"><div class="lf">OSCAL UUID</div><div class="lv">550e8400-e29b-41d4-a716…</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">implemented-requirement.uuid</div><div class="on">Stable across edits — stored in LeanIX from day one</div></div>
+    <div class="tag t-ssp">SSP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Version</div><div class="lv">v1.0</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">metadata.version</div><div class="on">Tracks requirement lifecycle in the SSP</div></div>
+    <div class="tag t-ssp">SSP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Requirement statement</div><div class="lv">"All service accounts must be provisioned via Okta…"</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">implemented-requirement.description</div><div class="on">Lifted directly — exact text, no rewriting</div></div>
+    <div class="tag t-ssp">SSP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Mapped controls</div><div class="lv">AC-2 · AC-2(1)</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">implemented-requirement.control-id</div><div class="on">One implemented-requirement entry per control (ac-2, ac-2.1)</div></div>
+    <div class="tag t-ssp">SSP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Parameters (Company Standards)</div><div class="lv">quarterly · 24 hours · Okta</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">modify.set-parameters[ ]</div><div class="on">Lives in Profile — not SSP. Parameters are org-level, not system-level</div></div>
+    <div class="tag t-pro">Profile</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">CSF subcategory</div><div class="lv">PR.AA-01</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">props[name="framework", value="CSF.PR.AA-01"]</div><div class="on">Enables CSF rollup reporting from OSCAL tooling</div></div>
+    <div class="tag t-ssp">SSP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Verification method</div><div class="lv">"IAM audit report — zero unregistered accounts"</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">local-objectives.objectives.description</div><div class="on">Becomes assessment objective — enables automated testing</div></div>
+    <div class="tag t-ap">AP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Implementation status</div><div class="lv">Implemented</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">implementation-status.state: "implemented"</div><div class="on">Powers automated compliance dashboards and FedRAMP reporting</div></div>
+    <div class="tag t-ssp">SSP</div>
+
+    <div class="row-div"></div>
+
+    <div class="lc"><div class="lf">Applied to (application)</div><div class="lv">Customer Portal</div></div>
+    <div class="ar">→</div>
+    <div class="oc"><div class="op">by-components[].component-uuid</div><div class="on">Links to Customer Portal component definition</div></div>
+    <div class="tag t-ssp">SSP</div>
+  </div>
+
+  <div class="docs">
+    <div class="db db-pro">
+      <div class="db-title">OSCAL Profile</div>
+      <div class="db-sub">Your tailored Moderate baseline. Parameter values live here. One Profile per org — shared across all systems.</div>
+    </div>
+    <div class="db db-ssp">
+      <div class="db-title">OSCAL SSP</div>
+      <div class="db-sub">Implemented requirements per system. Customer Portal gets its own SSP. Most requirement fields land here.</div>
+    </div>
+    <div class="db db-ap">
+      <div class="db-title">Assessment Plan</div>
+      <div class="db-sub">Verification method becomes assessment objective. Enables automated audit evidence collection.</div>
+    </div>
+  </div>
+
+  <div class="vnote">
+    <span class="vb">Versioning — REQ-IAM-001.v1 → v2:</span> The human ID (REQ-IAM-001) stays constant. A new UUID is generated for v2 and stored in LeanIX. The v1 UUID is marked superseded in OSCAL metadata. Systems assessed against v1 stay on v1 until they re-certify against v2. This is why storing the UUID in LeanIX from day one matters — retrofitting UUIDs across hundreds of requirements is painful.
+  </div>
+</div>
