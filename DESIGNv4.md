@@ -237,7 +237,11 @@ prohibited_protocols:
 **Values originate in Archer standards** (decided 2026-07-09, §1 authority
 model): the standard changes first; the profile mirrors it with a
 citation. A needed value with no backing standard is a *standards gap* to
-raise with the standards owners — never a value invented here. One place
+raise with the standards owners — never a value invented here. **Known
+gap until P4:** nothing detects an Archer standard changing underneath a
+mirrored value — drift is watched manually (periodic check by the
+maintainers, plus asking standards owners to notify) until the discover
+loop covers Archer at P4. One place
 values change; the renderer (§6) resolves references into the
 human-readable views. 800-53 ODP tailoring lands in the same profile layer
 when full-text catalogs arrive.
@@ -340,7 +344,7 @@ security-controls/
 └── .github/
     ├── CODEOWNERS               # per-layer human review routing
     └── workflows/               # validate.yml, gate.yml, discover.yml,
-                                 #   staleness.yml (scheduled)
+                                 #   staleness.yml (scheduled), release.yml
 ```
 
 Versioning is two-axis: paths and cross-references pin the **major
@@ -348,6 +352,25 @@ revision** (`r5`, `2.0`); exact upstream versions live in `version.yaml`,
 `sources.lock`, and provenance — a patch bump stays confined to `sources/`
 + `catalogs/` + lock, auto-mergeable per §8. Repo-level semver tags version
 our own releases; the `corp` framework versions with the repo itself.
+
+**Release and history management is delegated to GHE** — no hand-maintained
+version counters or changelogs in content files:
+
+- `release.yml` tags and publishes a GitHub Release on every merge to main
+  that touches the product layers (`requirements/`, `profiles/`,
+  `mappings/`), attaching the rendered reports (crosswalks, coverage,
+  roll-ups) as immutable artifacts — "requirements as of vX.Y.Z" without
+  reading git. The workflow stamps repo version + commit into the attached
+  artifact copies at release time (committed `rendered/` files stay
+  unstamped — they are regen-diff-checked and can't contain their own SHA).
+- Per-requirement change history is git history: every requirements/
+  profiles change is a reviewed PR, so who/what/when/approval is already
+  recorded. If GRC later needs an effective date as data, the renderer
+  derives it from the approving PR's merge date — never a hand-edited field.
+- Consumers and auditors cite `requirement id + release tag`, never commit
+  SHAs.
+- A GHE ruleset restricts tag creation/deletion to maintainers — release
+  history is audit-grade immutable.
 
 ## 5. Import pipeline (deterministic, not LLM transcription)
 
@@ -562,13 +585,17 @@ Per layer, recorded in `REVIEW.md` (date, commit, reviewer, sample list):
 - **P0 — scaffold**: layout, schemas (kernel + requirement + profile +
   catalog + mapping), canonical serializer, validators, gate classifier,
   golden-fixture harness, CI green on empty content; GHE branch protection
-  + CODEOWNERS.
+  + CODEOWNERS + tag-protection ruleset (§4 release model).
 - **P1 — product slice, end-to-end**: thin 800-53r5 + CSF 2.0 catalogs and
   the CPRT crosswalk (three small converters); org profile with first
   parameters; **network-security domain with 3–5 official requirements**;
-  renderer + coverage/gap + CSF roll-up + crosswalk reports; v1 domain
-  scope chosen and recorded. *This proves the entire value chain — author
-  → validate → map → render → report — before any heavy substrate work.*
+  renderer + coverage/gap + CSF roll-up + crosswalk reports; `release.yml`
+  publishing the first tagged Release with stamped report artifacts (§4).
+  *This proves the entire value chain — author → validate → map → render →
+  report — before any heavy substrate work.* The v1 domain scope needs security
+  leadership's sign-off, but that is **async, not a session dependency**:
+  P1 proceeds on network-security as a provisional slice; the scope
+  decision lands in `REVIEW.md` whenever leadership confirms it.
 - **P2 — full-text catalogs (pulled)**: 800-53r5 full converter (+53B
   baselines) and CSF full text; content-verifier agent + catalog gates.
   Triggered by P1's drafting experience — expected almost immediately, but
@@ -598,30 +625,71 @@ Per layer, recorded in `REVIEW.md` (date, commit, reviewer, sample list):
 
 ## 13. Build workflow & model plan
 
-**Cadence: one phase per session**, driven by the main session. Each phase
-ends at an objective gate — CI green on GHE plus the relevant §10 gate —
-which is also the session boundary. Handoff notes (`.remember/remember.md`)
-+ git history carry context; a human sits at every phase boundary. This
-document is the plan — don't re-plan per session (exceptions: P4 and P5 get
-a plan-mode pass first; they involve new integration surface, not execution
-of this doc).
+**Build model: Claude Sonnet 5 (`claude-sonnet-5`) for all interactive
+build sessions** (decided 2026-07-09 — Fable access ends). The design
+already assumed this could happen: correctness never rests on the model —
+it comes from deterministic converters, golden fixtures, and CI hard
+gates. Sonnet 5's profile fits (near-Opus coding/agentic quality; strict,
+literal instruction-following), with three watch-points, each mitigated
+below: judgment-dense prose (requirement drafting) leans harder on the
+human review §8 already mandates; parser/edge-case work may take more
+iterations (fixtures give the objective signal); and literal
+instruction-following makes **this document the executable spec** — its
+wording and CLAUDE.md's are load-bearing.
 
-Per-session rhythm: catch up (handoff note + relevant section here) →
-break the phase into tracked tasks → execute in the main session,
-delegating verbose side-work to subagents (validation runs → test-runner;
-upstream format spelunking → researcher) → verify on objective signal only
-(validators, CI green, regen-diff clean, fixtures green) → update handoff.
+**Effort:** default `high`; use `xhigh` for judgment-dense work (schema
+kernel, gate-classifier edge cases, requirement drafting). If reasoning
+looks shallow on a hard problem, raise effort before prompting around it.
+If a phase still stalls (repeated failed iterations on one problem), end
+the session cleanly at a task boundary and re-run that task on Opus 4.8.
 
-**Models:**
+**Cadence: the phase is the unit of scope; the phase gate is the unit of
+done.** Prefer one phase per session, but a phase MAY split across
+sessions at a task boundary with an updated handoff — never rush a gate
+to fit a session. Each phase ends at an objective gate (CI green on GHE
+plus the relevant §10 gate); a human sits at every phase boundary. This
+document is the plan — don't re-plan per session (exceptions: P4 and P5
+get a plan-mode pass first; they involve new integration surface, not
+execution of this doc).
 
-- *Interactive build sessions*: Fable 5 while preview access lasts —
-  highest quality at the judgment points (requirement drafting quality,
-  schema decisions, gate edge cases). Not load-bearing: correctness comes
-  from deterministic tools + CI hard gates, so a Sonnet 5 session reaches
-  the same end state with more iterations.
-- *Unattended loop (P5)*: pinned `claude-sonnet-5` for
-  discover/author/summarizer; the merge gate and impact flag are scripts
-  and use no model at all.
+### Per-session execution protocol
+
+1. **Catch up**: read `.remember/remember.md`, then the phase's §12 entry
+   and every DESIGN.md section it references. No work before both.
+2. **Task list**: break the phase into tracked tasks; every task's
+   completion criterion is an **objective check** (validator passes,
+   fixture green, regen-diff clean) — never self-assessment.
+3. **Fixtures first**: for converter/renderer work, commit the golden
+   fixture (input slice + expected output) before writing the tool;
+   iterate until it passes.
+4. **Fan out side-work** so raw payloads stay out of main context:
+   validation/CI runs → test-runner; upstream format spelunking (raw
+   OSCAL/CPRT payloads) → researcher; multi-file code questions →
+   Explore. Independent units (separate converters, separate validators)
+   may run as parallel subagents. **Judgment work — schema decisions,
+   requirement drafting, anything in an authored layer — stays in the
+   main session with the human.**
+5. **Verify on objective signal only**: validators pass, fixtures green,
+   regen-diff clean, CI green on the pushed branch. Not done until green.
+6. **Commit and push at every green milestone** — the maintainer reviews
+   on GitHub; an unpushed commit is invisible.
+7. **End**: update the handoff note, stating plainly what is
+   done-and-green vs. in-progress.
+
+### Guardrails (hard)
+
+- **Never redesign mid-phase.** If executing a step seems to require
+  deviating from this document or a CLAUDE.md hard rule, stop and surface
+  it to the human — a forced deviation is a design bug to fix in the
+  design, not an obstacle to improvise around.
+- **Escalate ambiguity, don't guess** — sessions are interactive; ask
+  when a decision isn't derivable from this doc, the code, or convention.
+- **Scope discipline** — build exactly what the phase names; no extra
+  features, abstractions, or error handling beyond the task.
+
+**Unattended loop (P5):** pinned `claude-sonnet-5` for
+discover/author/summarizer; the merge gate and impact flag are scripts
+and use no model at all. Never a preview model in the loop.
 
 **Build-time agents & skills** (distinct from §7 product agents, which are
 P5 deliverables):
